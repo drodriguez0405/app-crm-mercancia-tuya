@@ -5,13 +5,23 @@ import "./Login.css";
 function Login() {
   const [getName, setName] = useState("");
   const [getPassword, setPassword] = useState("");
-  let redireccion = useNavigate()
+  const [getUsuario, setUsuarios] = useState([]);
+  let reactNavigate = useNavigate();
+
+// // // // //   function getUsuarios() {
+// // // // //     fetch("http://localhost:3001/usuario")
+// // // // //       .then((response) => response.json())
+// // // // //       .then((data) => setUsuarios(data));
+// // // // //   }
+// // // // // getUsuarios();
+// // // // // console.log(getUsuario);
+
 
   function iniciarSesion(user, password) {
-    if (user=== 'admin' && password === '12345') {
-        redireccion('/home')
-    }else{
-        alert('error de credenciales')
+    if (user === "admin" && password === "12345") {
+      redireccion("/home");
+    } else {
+      alert("error de credenciales");
     }
   }
   return (
@@ -55,7 +65,11 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button className="btn" type="button" onClick={() => iniciarSesion(getName, getPassword)} >
+          <button
+            className="btn"
+            type="button"
+            onClick={() => iniciarSesion(getName, getPassword)}
+          >
             Login
           </button>
           <a href="#" className="btn-link">

@@ -1,5 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import {
+  alertaRedireccion,
+  alertaGenerica,
+  generarToken,
+} from "../helper/funciones";
 import "./Login.css";
 
 function Login() {
@@ -8,20 +13,19 @@ function Login() {
   const [getUsuario, setUsuarios] = useState([]);
   let reactNavigate = useNavigate();
 
-// // // // //   function getUsuarios() {
-// // // // //     fetch("http://localhost:3001/usuario")
-// // // // //       .then((response) => response.json())
-// // // // //       .then((data) => setUsuarios(data));
-// // // // //   }
-// // // // // getUsuarios();
-// // // // // console.log(getUsuario);
-
-
   function iniciarSesion(user, password) {
     if (user === "admin" && password === "12345") {
-      redireccion("/home");
+      let tokenAcesso = generarToken();
+      localStorage.setItem("token", tokenAcesso)
+      alertaRedireccion(
+        reactNavigate,
+        "Bienvenido",
+        "Sera redireccionado al home",
+        "succes",
+        "/Home"
+      );
     } else {
-      alert("error de credenciales");
+      alertaGenerica("Error", "Usuario y/o contraseña incorrecta", "error");
     }
   }
   return (

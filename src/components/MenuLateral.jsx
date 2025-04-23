@@ -1,11 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 import { alertaRedireccion } from "../helper/funciones";
 
-let reactNavigate = useNavigate;
-
 const MenuLateral = () => {
+
+  let reactNavigate = useNavigate;
+  let usuario = JSON.parse(localStorage.getItem("usuario"));
+  console.log(usuario);
+
   function cerrarSesion() {
-    localStorage.removeItem("token")
+    localStorage.removeItem("token");
     alertaRedireccion(
       reactNavigate,
       "largate",
@@ -20,7 +23,7 @@ const MenuLateral = () => {
         Track{" "}
         <span className="aplicacion__menu-lateral-logo--resaltado">X</span>
       </h1>
-      <h2>Usuario: Admin</h2>
+      <h2>Usuario: {usuario.nombre}</h2>
       <img
         className="aplicacion__menu-lateral-logo-imagen"
         src="/logo.jpg"

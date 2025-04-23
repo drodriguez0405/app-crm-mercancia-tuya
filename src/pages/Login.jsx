@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   alertaRedireccion,
@@ -6,6 +6,7 @@ import {
   generarToken,
 } from "../helper/funciones";
 import "./Login.css";
+let urlUsuarios = "https://back-jsonserver-tuya.onrender.com/usuarios";
 
 function Login() {
   const [getName, setName] = useState("");
@@ -13,10 +14,32 @@ function Login() {
   const [getUsuario, setUsuarios] = useState([]);
   let reactNavigate = useNavigate();
 
-  function iniciarSesion(user, password) {
-    if (user === "admin" && password === "12345") {
+  function getUsuarios() {
+    fetch(urlUsuarios)
+      .then((response) => response.json())
+      .then((data) => setUsuarios(data))
+      .catch((error) => console.log(error));
+  }
+
+  useEffect(() => {
+    getUsuarios();
+  }, []);
+
+  getUsuarios();
+  console.log(getUsuario);
+
+  function buscarUsuarios() {
+    getUsuario.find(
+      (item) => getName == item.user && getPassword == item.password
+    );
+    return user;
+  }
+
+  function iniciarSesion() {
+    if (buscarUsuarios) {
       let tokenAcesso = generarToken();
-      localStorage.setItem("token", tokenAcesso)
+      localStorage.setItem("token", tokenAcesso);
+      localStorage.setItem("usuario", JSON.stringify(buscarUsuarios()))
       alertaRedireccion(
         reactNavigate,
         "Bienvenido",
@@ -69,11 +92,7 @@ function Login() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <button
-            className="btn"
-            type="button"
-            onClick={() => iniciarSesion(getName, getPassword)}
-          >
+          <button className="btn" type="button" onClick={iniciarSesion}>
             Login
           </button>
           <a href="#" className="btn-link">
